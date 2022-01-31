@@ -5,7 +5,7 @@ zo_call = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "/Users/lexingtonbrill/.config/solana/id.json"
 
 [scripts]

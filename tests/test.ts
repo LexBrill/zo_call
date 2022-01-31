@@ -12,18 +12,6 @@ const user = new Keypair();
 console.log("USER =>", user.publicKey.toString());
 
 describe("Test", () => {
-    // before("Test before", async () => {
-    //     const transaction = new web3.Transaction().add(
-    //         web3.SystemProgram.transfer({
-    //             fromPubkey: bank.publicKey,
-    //             toPubkey: user.publicKey,
-    //             lamports: web3.LAMPORTS_PER_SOL * 20
-    //         }),
-    //     );
-    //     await web3.sendAndConfirmTransaction(getProvider().connection, transaction, [
-    //         bank,
-    //     ]);
-    // });
-    callIntegrationSuite(authority, user);
+    callIntegrationSuite();
 });
 
