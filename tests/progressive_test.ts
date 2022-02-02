@@ -11,7 +11,6 @@ export async function progressiveTest(
   authority: Signer,
   control: Signer,
   controller: Controller,
-  depository: ZoDepository,
   zo: Zo
 ): Promise<string> {
   describe("internal runs", () => {
@@ -25,9 +24,9 @@ export async function progressiveTest(
         await callCpiTest(authority, authority, zo, control);
     });
 
-    it("Initialize ZoDepository", async () => {
-      await initializeZoDepositoryTest(authority, control, controller, depository, zo);
-    });
+    // it("Initialize ZoDepository", async () => {
+    //   await initializeZoDepositoryTest(authority, control, controller, depository, zo);
+    // });
   });
   return "hehe";
 }

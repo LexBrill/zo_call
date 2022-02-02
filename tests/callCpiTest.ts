@@ -21,7 +21,7 @@ export const callCpiTest = async (authority: Signer, payer: Signer, zo: Zo, cont
 
     tx.instructions.push(createCallCpiIx);
     signers.push(authority);
-    signers.push(control);
+    // signers.push(control);
 
     const txId = await anchor.web3.sendAndConfirmTransaction(getProvider().connection, tx, signers, TXN_OPTS);
 }

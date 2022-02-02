@@ -34,18 +34,20 @@ describe("Test", () => {
         // console.log(zo.state.pubkey.toString())
         console.log("program from uxd-client:")
         console.log(zo.program.programId.toString())
+        const newControlKeypair = new Keypair();
         try {
-            if (await getProvider().connection.getAccountInfo(controlKeypair.publicKey)) {
+            if (await getProvider().connection.getAccountInfo(newControlKeypair.publicKey)) {
                 console.log("Already registered.");
             } else {
-                await createControlTest(authority, controlKeypair);
+                await createControlTest(authority, newControlKeypair);
+                console.log(`Control PublicKey: ${newControlKeypair.publicKey.toString()}`)
             }
         } catch (error) {
             throw error;
         }
         // const control = new Keypair();
         
-        await progressiveTest(authority, control, controllerUXD, zoDepositorySOL, zo);
+        await progressiveTest(authority, newControlKeypair, controllerUXD, zo);
     });
 
     it("Get zo: 01-client", async () => {
