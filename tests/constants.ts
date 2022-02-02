@@ -16,6 +16,10 @@ const Eyh77Seed = Uint8Array.from([
     239, 130, 126, 66, 127, 26, 187, 207, 173, 205, 133, 48, 102, 2, 219, 20, 234, 72, 102, 53, 122, 175, 166, 198, 11,
     198, 248, 59, 40, 137, 208, 193, 138, 197, 171, 147, 124, 212, 175,
 ]);
+// EnBKMCRrqBM3u9Zf8aWkGaNMEQHBy13rr1AsUB2ckWBy
+const EnBKMCRSeed = Uint8Array.from([
+    197,21,6,129,166,167,15,66,71,20,22,7,112,164,118,148,54,112,17,131,99,8,244,32,225,90,187,133,255,233,169,116,204,186,187,46,217,164,2,106,154,163,247,142,140,192,100,244,53,13,151,244,116,207,1,88,249,131,3,44,161,217,145,24
+]);
 
 // Identities - both of these are wallets that exists on devnet, we clone them each time and init from the privatekey
 // This is us, the UXD deployment admins // aca3VWxwBeu8FTZowJ9hfSKGzntjX68EXh1N9xpE1PC
@@ -27,5 +31,33 @@ const bankKeypair = Keypair.fromSecretKey(Eyh77Seed);
 export const bank: Signer = bankKeypair;
 console.log(`BANK KEY => ${bank.publicKey}`);
 
+export const controlKeypair = Keypair.fromSecretKey(EnBKMCRSeed);
+export const control: Signer = controlKeypair;
+console.log(`CONTROL KEY => ${control.publicKey}`);
+
 // Get this from anchor.toml TODO
 export const CLUSTER = 'devnet'; // "mainnet"
+
+// Swap these depending of CLUSTER TODO
+export const WSOL = new PublicKey("So11111111111111111111111111111111111111112");
+// Devnet
+export const USDC = new PublicKey("8FRFC6MoGGkMFQwngccyu69VnYbzykGeez7ignHVAFSN");
+export const BTC = new PublicKey("3UNBZ6o52WTWwjac2kPUb4FyodhU1vFkRJheu1Sh2TvU");
+export const ETH = new PublicKey("Cu84KB3tDL6SbFgToHMLYVDJJXdJjenNzSKikeAvzmkA");
+
+// Mainnet 
+// export const USDC = new PublicKey("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
+// export const BTC = new PublicKey("9n4nbM75f5Ui33ZbPYXn59EwSgE8CGsHtAeTH5YFeJ9E");
+
+// ----------------------------------------------------------------------------
+// export const uxdProgramId: PublicKey = new PublicKey(jsonIdl["metadata"]["address"]);
+export const uxdProgramId: PublicKey = new PublicKey("FDevGi65gQoi1Lzxgy1iZDvnMsQBWbdnbYMa59m2LdkM");
+export const testerProgramId: PublicKey = new PublicKey("D7hKgQLsJWsvtK2SLp7uw3L26hYQg2eRs6F6m7HBfvtY");
+// console.debug(`UXD PROGRAM ID == ${uxdProgramId}`);
+// export const uxdClient = new UXD(uxdProgramId);
+export const uxdHelpers = new UXDHelpers();
+
+export const mangoCrankInterval = 3000; // In milliseconds - Run KEEPER else useless - ~1000 on mainnet
+export const slippageBase = 1000;
+
+export const MANGO_QUOTE_DECIMALS = USDC_DECIMALS;
