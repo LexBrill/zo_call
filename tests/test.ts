@@ -1,7 +1,7 @@
 import { Zo, createAndInitializeZo, UXD_DECIMALS, SOL_DECIMALS, USDC_DECIMALS, Controller, ZoDepository } from "@uxdprotocol/uxd-client";
 import * as anchor from "@project-serum/anchor";
 import { authority, bank, CLUSTER, uxdProgramId, WSOL, USDC, control, controlKeypair } from "./constants";
-import { getProvider } from "./provider";
+import { getProvider, TXN_OPTS } from "./provider";
 import { Keypair, PublicKey } from "@solana/web3.js";
 import { createProgram, Cluster, State, Margin } from "@zero_one/client";
 import { progressiveTest } from "./progressive_test";
@@ -27,6 +27,44 @@ describe("Test", () => {
         ]);
     });
 
+    // export const makeCreateWrappedNativeAccountTransaction = async (
+    //     connection: Connection,
+    //     amount: number,
+    //     payer: PublicKey
+    // ) => {
+    //     // Allocate memory for the account
+    //     const balanceNeeded = await Token.getMinBalanceRentForExemptAccount(connection);
+
+    //     const newAccount = Keypair.generate();
+    //     const ixs = [];
+
+    //     ixs.push(
+    //         SystemProgram.createAccount({
+    //             fromPubkey: payer,
+    //             newAccountPubkey: newAccount.publicKey,
+    //             lamports: balanceNeeded,
+    //             space: AccountLayout.span,
+    //             programId: TOKEN_PROGRAM_ID,
+    //         })
+    //     );
+
+    //     // Send lamports to it (these will be wrapped into native tokens by the token program)
+    //     ixs.push(
+    //         SystemProgram.transfer({
+    //             fromPubkey: payer,
+    //             toPubkey: newAccount.publicKey,
+    //             lamports: amount,
+    //         })
+    //     );
+
+    //     // Assign the new account to the native token mint.
+    //     // the account will be initialized with a balance equal to the native token balance.
+    //     // (i.e. amount)
+    //     ixs.push(Token.createInitAccountInstruction(TOKEN_PROGRAM_ID, NATIVE_MINT, newAccount.publicKey, payer));
+
+    //     return { ixs, wrappedSolAccount: newAccount };
+    // };
+
     let zo: Zo;
     it("Get zo: uxd-client", async () => {
         zo = await createAndInitializeZo(CLUSTER, getProvider().connection);
@@ -39,14 +77,33 @@ describe("Test", () => {
             if (await getProvider().connection.getAccountInfo(newControlKeypair.publicKey)) {
                 console.log("Already registered.");
             } else {
-                await createControlTest(authority, newControlKeypair);
-                console.log(`Control PublicKey: ${newControlKeypair.publicKey.toString()}`)
+                // await createControlTest(authority, newControlKeypair);
+                let tx = new anchor.web3.Transaction();
+                const ZO_CONTROL_SPAN = 8 + 4482;
+
+                const lamportRentExempt = await getProvider().connection.getMinimumBalanceForRentExemption(ZO_CONTROL_SPAN, TXN_OPTS.commitment);
+
+
+                let createAccountIx = anchor.web3.SystemProgram.createAccount({
+                    fromPubkey: bank.publicKey,
+                    newAccountPubkey: newControlKeypair.publicKey,
+                    lamports: lamportRentExempt,
+                    space: ZO_CONTROL_SPAN,
+                    programId: zo.program.program,
+                });
+
+                tx.instructions.push(createAccountIx);
+                
+                let txId = await anchor.web3.sendAndConfirmTransaction(getProvider().connection, tx, [newControlKeypair, bank], TXN_OPTS);
+
+                console.log(`Control PublicKey: ${newControlKeypair.publicKey.toString()}`);
+                console.log(txId, "coucou");
             }
         } catch (error) {
             throw error;
         }
         // const control = new Keypair();
-        
+
         await progressiveTest(authority, newControlKeypair, controllerUXD, zo);
     });
 
