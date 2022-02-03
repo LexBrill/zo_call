@@ -20,4 +20,4 @@ anchor-lang = "0.20.1"
 anchor-spl = "0.20.1"
 solana-program = "1.8.12"
 spl-token = "3.2.0"
-zo-abi = { git = "https://github.com/01protocol/zo-abi", branch = "master", features = ["cpi"] }
+zo-abi = { git = "https://github.com/01protocol/zo-abi", branch = "master", features = ["cpi", "devnet"] }

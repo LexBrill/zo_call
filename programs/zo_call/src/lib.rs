@@ -4,7 +4,7 @@ pub mod call_cpi;
 pub mod set_up;
 pub use call_cpi::*;
 pub use set_up::*;
-declare_id!("D7hKgQLsJWsvtK2SLp7uw3L26hYQg2eRs6F6m7HBfvtY");
+declare_id!("8tErj5yphSzbmLNgyNJn9hqdr4TVVuHw3qmnyGmLYSpk");
 
 #[program]
 #[deny(unused_must_use)]

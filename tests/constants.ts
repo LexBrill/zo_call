@@ -52,7 +52,7 @@ export const ETH = new PublicKey("Cu84KB3tDL6SbFgToHMLYVDJJXdJjenNzSKikeAvzmkA")
 // ----------------------------------------------------------------------------
 // export const uxdProgramId: PublicKey = new PublicKey(jsonIdl["metadata"]["address"]);
 export const uxdProgramId: PublicKey = new PublicKey("FDevGi65gQoi1Lzxgy1iZDvnMsQBWbdnbYMa59m2LdkM");
-export const testerProgramId: PublicKey = new PublicKey("D7hKgQLsJWsvtK2SLp7uw3L26hYQg2eRs6F6m7HBfvtY");
+export const testerProgramId: PublicKey = new PublicKey("8tErj5yphSzbmLNgyNJn9hqdr4TVVuHw3qmnyGmLYSpk");
 // console.debug(`UXD PROGRAM ID == ${uxdProgramId}`);
 // export const uxdClient = new UXD(uxdProgramId);
 export const uxdHelpers = new UXDHelpers();

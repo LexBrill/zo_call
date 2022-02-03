@@ -50,25 +50,25 @@ describe("Test", () => {
         await progressiveTest(authority, newControlKeypair, controllerUXD, zo);
     });
 
-    it("Get zo: 01-client", async () => {
-        const provider = anchor.Provider.local("https://api.devnet.solana.com");
+    // it("Get zo: 01-client", async () => {
+    //     const provider = anchor.Provider.local("https://api.devnet.solana.com");
 
-        const program = createProgram(provider, Cluster.Devnet);
+    //     const program = createProgram(provider, Cluster.Devnet);
 
-        // let stateKey = new PublicKey("KwcWW7WvgSXLJcyjKZJBHLbfriErggzYHpjS9qjVD5F");
+    //     // let stateKey = new PublicKey("KwcWW7WvgSXLJcyjKZJBHLbfriErggzYHpjS9qjVD5F");
 
-        // const state: State = await State.load(program, stateKey);
+    //     // const state: State = await State.load(program, stateKey);
 
-        // const margin: Margin = await Margin.create(program, state);
+    //     // const margin: Margin = await Margin.create(program, state);
 
-        // const MARKET_SYMBOL = "BTC-PERP";
+    //     // const MARKET_SYMBOL = "BTC-PERP";
 
-        // await margin.createPerpOpenOrders(MARKET_SYMBOL);
+    //     // await margin.createPerpOpenOrders(MARKET_SYMBOL);
 
-        console.log("program from 01-client:");
-        console.log(program.programId.toString());
+    //     console.log("program from 01-client:");
+    //     console.log(program.programId.toString());
 
-    });
+    // });
 
 
 });

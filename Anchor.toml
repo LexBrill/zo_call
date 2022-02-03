@@ -1,5 +1,5 @@
-[programs.localnet]
-zo_call = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+[programs.devnet]
+zo_call = "8tErj5yphSzbmLNgyNJn9hqdr4TVVuHw3qmnyGmLYSpk"
 
 [registry]
 url = "https://anchor.projectserum.com"
