@@ -51,11 +51,10 @@ export const ETH = new PublicKey("Cu84KB3tDL6SbFgToHMLYVDJJXdJjenNzSKikeAvzmkA")
 
 // ----------------------------------------------------------------------------
 // export const uxdProgramId: PublicKey = new PublicKey(jsonIdl["metadata"]["address"]);
-export const uxdProgramId: PublicKey = new PublicKey("FDevGi65gQoi1Lzxgy1iZDvnMsQBWbdnbYMa59m2LdkM");
-export const testerProgramId: PublicKey = new PublicKey("EG8y9tRQa4bWeN2dutdt2omibyTWvBtAoiPuRecXHG2Y");
-// console.debug(`UXD PROGRAM ID == ${uxdProgramId}`);
+// export const testerProgramId: PublicKey = new PublicKey("MtvAPvC9EKPZfga2UfJsjxeqUQgGtTzDRh32nUro5ZG");
+// console.debug(`PROGRAM ID == ${uxdProgramId}`);
 // export const uxdClient = new UXD(uxdProgramId);
-export const uxdHelpers = new UXDHelpers();
+// export const uxdHelpers = new UXDHelpers();
 
 export const mangoCrankInterval = 3000; // In milliseconds - Run KEEPER else useless - ~1000 on mainnet
 export const slippageBase = 1000;

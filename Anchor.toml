@@ -1,12 +1,12 @@
 [programs.devnet]
-zo_call = "3Bmhmp8CsjiHABUmtTZe8ooNna2MhD37prtg7TwQANZd"
+test = "69iaBnrPvLzRnoUm3hyXtowXaGshTtGuBTZtzBu7AWcY"
 
 [registry]
 url = "https://anchor.projectserum.com"
 
 [provider]
 cluster = "devnet"
-wallet = "/Users/lexingtonbrill/.config/solana/id.json"
+wallet = "~/.config/solana/id.json"
 
 [scripts]
-test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/eztest.ts"
