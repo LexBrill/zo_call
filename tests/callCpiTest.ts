@@ -19,6 +19,9 @@ export const callCpiTest = async (authority: Signer, payer: Signer, zo: Zo, cont
     let signers = [];
     let tx = new Transaction();
 
+    console.log(`Authority: ${authority.publicKey.toString()}`);
+    console.log(`Wallet: ${getProvider().wallet.publicKey.toString()}`);
+
     tx.instructions.push(createCallCpiIx);
     signers.push(authority);
     // signers.push(control);

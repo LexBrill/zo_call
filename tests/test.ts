@@ -2,10 +2,11 @@ import { Zo, createAndInitializeZo, UXD_DECIMALS, SOL_DECIMALS, USDC_DECIMALS, C
 import * as anchor from "@project-serum/anchor";
 import { authority, bank, CLUSTER, uxdProgramId, WSOL, USDC, control, controlKeypair } from "./constants";
 import { getProvider, TXN_OPTS } from "./provider";
-import { Keypair, PublicKey } from "@solana/web3.js";
-import { createProgram, Cluster, State, Margin } from "@zero_one/client";
+import { Keypair, PublicKey, Signer } from "@solana/web3.js";
+import { createProgram, Cluster, State, Margin, OrderType } from "@zero_one/client";
 import { progressiveTest } from "./progressive_test";
 import { createControlTest } from "./createControlTest";
+import { PerpOrderType } from "@uxdprotocol/uxd-client/node_modules/@blockworks-foundation/mango-client";
 
 // console.log("USER =>", user.publicKey.toString());
 
@@ -15,6 +16,8 @@ const zoDepositorySOL = new ZoDepository(WSOL, "SOL", SOL_DECIMALS, USDC, "USDC"
 
 describe("Test", () => {
     before("Transfer 20 sol from bank to test user", async () => {
+
+
         const transaction = new anchor.web3.Transaction().add(
             anchor.web3.SystemProgram.transfer({
                 fromPubkey: bank.publicKey,
@@ -85,16 +88,18 @@ describe("Test", () => {
 
 
                 let createAccountIx = anchor.web3.SystemProgram.createAccount({
-                    fromPubkey: bank.publicKey,
+                    fromPubkey: getProvider().wallet.publicKey,
                     newAccountPubkey: newControlKeypair.publicKey,
                     lamports: lamportRentExempt,
                     space: ZO_CONTROL_SPAN,
-                    programId: zo.program.program,
+                    programId: new PublicKey("Zo1ThtSHMh9tZGECwBDL81WJRL6s3QTHf733Tyko7KQ"),
                 });
 
                 tx.instructions.push(createAccountIx);
                 
-                let txId = await anchor.web3.sendAndConfirmTransaction(getProvider().connection, tx, [newControlKeypair, bank], TXN_OPTS);
+                let txId = await getProvider().send(tx, [newControlKeypair], TXN_OPTS);
+                await getProvider().connection.confirmTransaction(txId, TXN_OPTS.commitment);
+                // let txId = await anchor.web3.sendAndConfirmTransaction(getProvider().connection, tx, [newControlKeypair], TXN_OPTS);
 
                 console.log(`Control PublicKey: ${newControlKeypair.publicKey.toString()}`);
                 console.log(txId, "coucou");
@@ -102,28 +107,60 @@ describe("Test", () => {
         } catch (error) {
             throw error;
         }
-        // const control = new Keypair();
+        const control = new Keypair();
 
-        await progressiveTest(authority, newControlKeypair, controllerUXD, zo);
+        await progressiveTest(user, control, controllerUXD, zo);
     });
 
     // it("Get zo: 01-client", async () => {
     //     const provider = anchor.Provider.local("https://api.devnet.solana.com");
-
+        
     //     const program = createProgram(provider, Cluster.Devnet);
 
-    //     // let stateKey = new PublicKey("KwcWW7WvgSXLJcyjKZJBHLbfriErggzYHpjS9qjVD5F");
+    //     let stateKey = new PublicKey("KwcWW7WvgSXLJcyjKZJBHLbfriErggzYHpjS9qjVD5F");
 
-    //     // const state: State = await State.load(program, stateKey);
+    //     const state: State = await State.load(program, stateKey);
 
     //     // const margin: Margin = await Margin.create(program, state);
+    //     const margin: Margin = await Margin.load(program, state, state.cache);
 
-    //     // const MARKET_SYMBOL = "BTC-PERP";
+    //     const MARKET_SYMBOL = "BTC-PERP";
 
-    //     // await margin.createPerpOpenOrders(MARKET_SYMBOL);
+    //     const MARKET_SYMBOL_SOL = "SOL-PERP";
+
+    //     // await margin.createPerpOpenOrders(MARKET_SYMBOL_SOL);
+    //     await margin.getOpenOrdersKeyBySymbol(MARKET_SYMBOL_SOL, Cluster.Devnet);
 
     //     console.log("program from 01-client:");
     //     console.log(program.programId.toString());
+
+    //     const depositSize = 5;
+    //     // await margin.deposit(new PublicKey("So11111111111111111111111111111111111111112"), depositSize, false);
+
+
+    //     const price = 105;
+    //     const size = .05;
+    //     const isLong = false;
+    //     const toBaseLot = 10**9;
+    //     const orderType: OrderType = { immediateOrCancel: {} }; 
+
+    //     await margin.placePerpOrderRaw({
+    //         symbol: MARKET_SYMBOL_SOL,
+    //         orderType: orderType,
+    //         isLong: isLong,
+    //         limitPrice: new anchor.BN(price),
+    //         maxBaseQty: new anchor.BN(size*toBaseLot),
+    //         maxQuoteQty: new anchor.BN(size*price),
+    //         limit: 10,
+    //         // clientId: 2,
+    //     });
+
+    //     await console.log(margin.getOpenOrdersInfoBySymbol(
+    //         MARKET_SYMBOL_SOL
+    //     ));
+
+    //     await console.log(margin.balances)
+
 
     // });
 

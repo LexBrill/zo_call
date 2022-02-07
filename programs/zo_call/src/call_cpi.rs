@@ -10,6 +10,7 @@ use zo_abi::{self as zo, program::ZoAbi as Zo};
 pub struct CallZo<'info> {
     pub authority: Signer<'info>,
     // payer?
+    #[account(mut)]
     pub payer: Signer<'info>,
     // pub collateral_mint: Box<Account<'info, Mint>>,
 
@@ -19,8 +20,10 @@ pub struct CallZo<'info> {
         mut,
         seeds = [authority.key.as_ref(), state.key().as_ref(), b"marginv1".as_ref()],
         bump = margin_nonce,
+        // space = 1000,
+        // payer = payer,
     )]
-    pub margin_account: AccountInfo<'info>, //what is this?
+    pub margin_account: AccountInfo<'info>,
     #[account(zero)]
     pub control: AccountInfo<'info>,
     // programs
@@ -35,8 +38,19 @@ pub fn handler(
     ctx: Context<CallZo>,
     margin_nonce: u8,
 ) -> ProgramResult {
+
+
+    let state_key = ctx.accounts.state.key.as_ref();
+
+    let margin_account_signer_seed: &[&[&[u8]]] = &[&[
+        ctx.accounts.authority.key.as_ref(),
+        state_key,
+        b"marginv1".as_ref(),
+        &[margin_nonce],
+    ]];
+
     zo::cpi::create_margin(
-        ctx.accounts.into_zo_create_margin_context(),
+        ctx.accounts.into_zo_create_margin_context().with_signer(margin_account_signer_seed),
         margin_nonce,
     )?;
 

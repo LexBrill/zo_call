@@ -12,7 +12,7 @@ import { Controller, findAddrSync, Zo, ZoDepository } from "@uxdprotocol/uxd-cli
 import { InstructionNamespace, Idl } from '@project-serum/anchor';
 import { uxdIdl } from './uxd-idl';
 import NamespaceFactory from './instructionNamespace';
-import { uxdProgramId } from './constants';
+import { uxdProgramId, testerProgramId } from './constants';
 
 export class UXD<UxdIdl extends Idl = Idl>  {
     public instruction: InstructionNamespace<UxdIdl>;
@@ -91,6 +91,8 @@ export class UXD<UxdIdl extends Idl = Idl>  {
             [authority.toBuffer(), zo.state.pubkey.toBuffer(), Buffer.from('marginv1')],
             uxdProgramId
         );
+        console.log("(@#!*$(@#*$(!@*#%(!@#*($!@#($");
+        console.log(zo.state.pubkey.toString());
         // @ts-expect-error
         return this.instruction.callCpi(
             marginNonce,
