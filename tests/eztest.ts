@@ -14,10 +14,12 @@ const TXN_OPTS = {
 };
 const program = anchor.workspace.Test;
 
+// const program = new PublicKey("Zo1ThtSHMh9tZGECwBDL81WJRL6s3QTHf733Tyko7KQ");
+
 const user = new Keypair();
 const control = new Keypair();
 const zoDepositorySOL = new ZoDepository(WSOL, "SOL", SOL_DECIMALS, USDC, "USDC", USDC_DECIMALS, program.programId);
-
+console.log(program.programId);
 describe("Test", () => {
 
     it("qq", async () => {
@@ -47,9 +49,10 @@ describe("Test", () => {
         let txReg = new Transaction();
         const regIx = program.instruction.callCpi(
             zoDepositorySOL.bump,
+            zoDepositorySOL.zoAccountBump,
             {
                 accounts: {
-                    authority: authority.publicKey,
+                    authority: zoDepositorySOL.pda,
                     payer: bank.publicKey,
                     state: zo.state.pubkey,
                     marginAccount: zoDepositorySOL.zoAccountPda,
